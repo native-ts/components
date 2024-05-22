@@ -24,8 +24,7 @@ export interface ScrollListItemProps {
 }
 
 export const ScrollListItem: FC<ScrollListItemProps> = props => {
-  const {item, value, index, y, listHeight, paddingItems, animated, onPress} =
-    props;
+  const {item, value, index, y, listHeight, onPress} = props;
 
   const isActive = useMemo(() => item.value === value, [item.value, value]);
 
@@ -36,26 +35,26 @@ export const ScrollListItem: FC<ScrollListItemProps> = props => {
   const bottom = listHeight - 44;
   const appearing = listHeight;
 
-  const translateY = Animated.add(
-    Animated.add(
-      y,
-      y.interpolate({
-        inputRange: [0, 0.00001 + index * 44],
-        outputRange: [0, -index * 44],
-      }),
-    ),
-    position.interpolate({
-      inputRange: [bottom, appearing],
-      outputRange: [0, -11],
-      extrapolate: 'clamp',
-    }),
-  );
-
-  const scale = position.interpolate({
-    inputRange: [disappearing, top, 44 * paddingItems, bottom, appearing],
-    outputRange: [0.4, 0.7, 1, 0.7, 0.4],
-    extrapolate: 'clamp',
-  });
+  // const translateY = Animated.add(
+  //   Animated.add(
+  //     y,
+  //     y.interpolate({
+  //       inputRange: [0, 0.00001 + index * 44],
+  //       outputRange: [0, -index * 44],
+  //     }),
+  //   ),
+  //   position.interpolate({
+  //     inputRange: [bottom, appearing],
+  //     outputRange: [0, -11],
+  //     extrapolate: 'clamp',
+  //   }),
+  // );
+  // console.log(index, 'position', position);
+  // const scale = position.interpolate({
+  //   inputRange: [disappearing, top, 44 * paddingItems, bottom, appearing],
+  //   outputRange: [0.4, 0.7, 1, 0.7, 0.4],
+  //   extrapolate: 'clamp',
+  // });
 
   const opacity = position.interpolate({
     inputRange: [disappearing, top, bottom, appearing],
@@ -70,7 +69,7 @@ export const ScrollListItem: FC<ScrollListItemProps> = props => {
     <Animated.View
       style={{
         opacity,
-        ...(animated && {transform: [{translateY}, {scale}]}),
+        // ...(animated && {transform: [{scale}]}),
       }}>
       <Pressable style={styles.item} onPress={handlePress}>
         <Text style={[styles.text, isActive && styles.textActive]}>
